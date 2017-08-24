@@ -144,18 +144,20 @@
     .em3 {
       font-size: 6rem;
     }
+    .start{
+      text-align: center;
+      padding:5rem;
+    }
   </style>
   <!-- Google Fonts -->
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-
   <!-- CSS Reset -->
   <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-
   <!-- Milligram CSS minified -->
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
-
   <!-- You should properly set the path from the main file. -->
   <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/buttons.css">
 </head>
 
 <body>
@@ -194,7 +196,9 @@
     </tr>
   </table>
   <input type="text" id="src" value="" placeholder="형식에 맞게 댓글의 주소를 적어주세요. 그룹의 경우 예 : 1801616463212215/comments">
-  <input type="button" id="start" name="" value="추첨하기" onclick="lottery();">
+  <div class="start">
+    <button class="button button-3d button-primary button-rounded button-giant" onclick="lottery();">추첨!</button>
+  </div>
   <div id="result"></div>
 
 </body>
