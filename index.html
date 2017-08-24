@@ -57,7 +57,7 @@
       if (next === undefined) {
         shuffle(list);
         var code = list.map(function(data, i) {
-          return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/"+data.from.id+"\" target=\"_blank\">" + data.from.name + "</a></td><td>" + data.from.id + "</td><td>" + data.message + "</td></tr>";
+          return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/"+data.from.id+"\" target=\"_blank\">" + data.from.name + "</a></td><td>" + data.message + "</td></tr>";
         });
         document.getElementById('result').innerHTML = '<table><tbody>'+code.join('')+'</tbody></table>';
         return;
