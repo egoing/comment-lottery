@@ -8,18 +8,18 @@
     // appId 를 변경해서 사용해야 합니다.
     window.fbAsyncInit = function() {
       FB.init({
-        appId: location.href.indexOf('localhost') === -1 ? '817206035109655' : '145291699399937',
+        appId: location.href.indexOf('localhost') === -1 ? '145291699399937' : '817206035109655',
         cookie: true,
         xfbml: true,
         version: 'v2.8'
       });
       FB.AppEvents.logPageView();
       FB.getLoginStatus(function(response) {
-        // if (response.status === 'connected') {
-        //   document.getElementById('require_login').style.display = 'block';
-        // } else {
-        //   document.getElementById('require_login').style.display = 'none';
-        // }
+        if (response.status === 'connected') {
+          document.getElementById('require_login').style.display = 'block';
+        } else {
+          document.getElementById('require_login').style.display = 'none';
+        }
       });
 
     };
@@ -78,6 +78,16 @@
             }
             // getComments(undefined);
             getComments(response.paging.next);
+          } else {
+            var msg = response.error.message;
+            switch(response.error.code){
+              case 100:
+                msg = '입력값이 올바른지 확인해주세요.\n'+msg;
+                break;
+              case 104:
+                msg = '페이스북 로그인을 먼저 해주세요.\n'+msg;
+            }
+            alert('깜짝이야! 에러가 발생했습니다! \n'+msg);
           }
         }
       );
