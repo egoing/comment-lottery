@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>페이스북 댓글 추첨</title>
@@ -7,18 +8,18 @@
     // appId 를 변경해서 사용해야 합니다.
     window.fbAsyncInit = function() {
       FB.init({
-        appId: '145291699399937',
+        appId: '817206035109655',
         cookie: true,
         xfbml: true,
         version: 'v2.8'
       });
       FB.AppEvents.logPageView();
       FB.getLoginStatus(function(response) {
-        console.log(response);
-        if (response.status === 'connected') {} else {
-          document.getElementById('require_login').style.display = 'block';
-        }
-        getComments(document.getElementById('src').value);
+        // if (response.status === 'connected') {
+        //   document.getElementById('require_login').style.display = 'block';
+        // } else {
+        //   document.getElementById('require_login').style.display = 'none';
+        // }
       });
 
     };
@@ -54,14 +55,11 @@
 
     function getComments(next) {
       if (next === undefined) {
-        console.log(list);
         shuffle(list);
-        console.log(list);
         var code = list.map(function(data, i) {
-          console.log(data.from.name);
           return "<tr><td>" + (i + 1) + "</td><td>" + data.from.name + "</td><td>" + data.from.id + "</td><td>" + data.message + "</td></tr>";
         });
-        document.getElementById('result').innerHTML = code.join('');
+        document.getElementById('result').innerHTML = '<table><tbody>'+code.join('')+'</tbody></table>';
         return;
       }
       FB.api(
@@ -73,8 +71,10 @@
               var isExist = list.find(function(data) {
                 return data.from.id === comment.from.id
               })
-              if (!isExist)
+              if (!isExist){
                 list.push(comment);
+                document.getElementById('result').innerHTML = '<span class="em3">'+list.length+'</span>개의 댓글을 수집했습니다.';
+              }
             }
             // getComments(undefined);
             getComments(response.paging.next);
@@ -98,10 +98,15 @@
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
   <!-- You should properly set the path from the main file. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
   <style>
+    * {
+      font-family: 'Spoqa Han Sans', 'Sans-serif';
+    }
+
     body {
       padding: 3rem;
     }
@@ -112,22 +117,79 @@
     }
 
     #require_login {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.4rem;
+    }
+
+    p {
+      margin-bottom: 5rem;
+    }
+
+    h1 {
+      font-size: 6rem;
+      font-weight: 100;
+      text-align: center;
+      padding-top: 4rem;
+      padding-bottom: 8rem;
+    }
+
+    h2 {
+      font-weight: 100;
+      font-size: 3rem;
+    }
+
+    .em1 {
+      background-color: red;
+      color: white;
+    }
+
+    .em2 {
+      background-color: green;
+      color: white;
+    }
+
+    .em3{
+      font-size:6rem;
     }
   </style>
-  <div id="require_login">
-    <div>
-      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
-    </div>
+  <h1>페이스북 댓글 추첨</h1>
+  <h2>소개</h2>
+  <p>
+    이 서비스는 페이스북의 댓글을 이벤트를 하는 분들을 위해서 만들어진 서비스입니다. 댓글의 양이 많아지는 경우 랜덤하게 추첨을 하는 것이 쉽지 않습니다. 이런 불편을 해소하기 위해서 만들어진 서비스입니다. 이 서비스는 생활코딩 페이스북 그룹의 <a href="https://www.facebook.com/groups/codingeverybody/permalink/1802935303080331">공익이벤트</a>를 진행하기 위해서 만들어진 것을
+    좀 더 많은 분들이 사용할 수 있도록 개선한 것입니다.
+  </p>
+  <h2>로그인</h2>
+  <p>
+    이 서비스는 로그인을 필요로 합니다. 로그인을 하는 이유는 페이스북에 접근해서 댓글 정보를 가져오기 위해서는 기본적인 인증(access token)이 필요하기 때문입니다. 로그인 외에 어떤 정보도 수집하지 않습니다. <strong><u>이렇게 말하는 서비스가 있다면 항상 의심하셔야 합니다.</u></strong> 그래서 아래처럼 소스코드를 공개합니다. 보안적인 문제가 있는지를 주변에 계신 개발자에게 문의해보고 사용하세요. 항상 의심하세요. ^^
+    <a href="https://github.com/egoing/comment-lottery">https://github.com/egoing/comment-lottery</a>
+    <br><br>
+    <span class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></span>
+  </p>
+  <h2>댓글의 주소</h2>
+  <table>
+    <tr>
+      <td>구분</td>
+      <td>페북글의 주소</td>
+      <td>댓글의 호출 주소</td>
+    </tr>
+    <tr>
+      <td>그룹</td>
+      <td>https://www.facebook.com/groups/codingeverybody/permalink/<span class="em1">1801616463212215</span></td>
+      <td><span class="em1">1801616463212215</span>/comments</td>
+    </tr>
+    <tr>
+      <td>페이지</td>
+      <td>https://www.facebook.com/permalink.php?story_fbid=<span class="em2">1440324862722276</span>&id=<span class="em1">218158748272233</span></td>
+      <td>
+        <span class="em1">218158748272233</span>_<span class="em2">1440324862722276</span>/comments
+      </td>
+    </tr>
+  </table>
+  <input type="text" id="src" value="" placeholder="형식에 맞게 댓글의 주소를 적어주세요. 그룹의 경우 예 : 1801616463212215/comments">
+  <input type="button" id="start" name="" value="추첨하기" onclick="lottery();">
+  <div id="result">
+
   </div>
 
-  <input type="text" id="src" value="/1797775600262968/comments" placeholder="댓글 주소">
-  <input type="button" id="start" name="" value="추첨하기" onclick="lottery();">
-  <table>
-    <tbody id="result">
-
-    </tbody>
-  </table>
 </body>
 
 </html>
