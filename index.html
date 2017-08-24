@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>페이스북 댓글 추첨</title>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '1179934518809891',
+        cookie: true,
+        xfbml: true,
+        version: 'v2.8'
+      });
+      FB.AppEvents.logPageView();
+      FB.getLoginStatus(function(response) {
+        console.log(response);
+        if (response.status === 'connected') {} else {
+          document.getElementById('require_login').style.display = 'block';
+        }
+        getComments(document.getElementById('src').value);
+      });
+
+    };
+
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+
+      });
+    }
+
+    list = [];
+
+    function shuffle(a) {
+      var j, x, i;
+      for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+      }
+    }
+
+    function getComments(next) {
+      if (next === undefined) {
+        console.log(list);
+        shuffle(list);
+        console.log(list);
+        var code = list.map(function(data, i) {
+          console.log(data.from.name);
+          return "<tr><td>" + (i + 1) + "</td><td>" + data.from.name + "</td><td>" + data.from.id + "</td><td>" + data.message + "</td></tr>";
+        });
+        document.getElementById('result').innerHTML = code.join('');
+        return;
+      }
+      FB.api(
+        next,
+        function(response) {
+          if (response && !response.error) {
+            for (var name in response.data) {
+              var comment = response.data[name];
+              var isExist = list.find(function(data) {
+                return data.from.id === comment.from.id
+              })
+              if (!isExist)
+                list.push(comment);
+            }
+            // getComments(undefined);
+            getComments(response.paging.next);
+          }
+        }
+      );
+    }
+
+    function lottery() {
+      list = [];
+      getComments(document.getElementById('src').value);
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+  <!-- CSS Reset -->
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+
+  <!-- Milligram CSS minified -->
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <!-- You should properly set the path from the main file. -->
+</head>
+
+<body>
+  <style>
+    body {
+      padding: 3rem;
+    }
+
+    table {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #require_login {
+      margin-bottom: 1.2rem;
+    }
+  </style>
+  <div id="require_login">
+    <div>
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+    </div>
+  </div>
+
+  <input type="text" id="src" value="/1797775600262968/comments" placeholder="댓글 주소">
+  <input type="button" id="start" name="" value="추첨하기" onclick="lottery();">
+  <table>
+    <tbody id="result">
+
+    </tbody>
+  </table>
+</body>
+
+</html>
