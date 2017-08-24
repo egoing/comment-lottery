@@ -162,14 +162,14 @@
   <h1>페이스북 댓글 추첨</h1>
   <h2>소개</h2>
   <p>
-    이 서비스는 페이스북의 댓글을 이벤트를 하는 분들을 위해서 만들어진 서비스입니다. 댓글의 양이 많아지는 경우 랜덤하게 추첨을 하는 것이 쉽지 않습니다. 이런 불편을 해소하기 위해서 만들어진 서비스입니다. 이 서비스는 생활코딩 페이스북 그룹의 <a href="https://www.facebook.com/groups/codingeverybody/permalink/1802935303080331">공익이벤트</a>를 진행하기 위해서 만들어진 것을
+    이 서비스는 페이스북의 댓글을 이벤트를 하는 분들을 위해서 만들어진 서비스입니다. 댓글의 양이 많아지는 경우 랜덤하게 추첨을 하는 것이 쉽지 않습니다. 이런 불편을 해소하기 위해서 만들어진 서비스입니다. 이 서비스는 생활코딩 페이스북 그룹의 <a href="https://www.facebook.com/groups/codingeverybody/permalink/1802935303080331" target="_blank">공익이벤트</a>를 진행하기 위해서 만들어진 것을
     좀 더 많은 분들이 사용할 수 있도록 개선한 것입니다.
   </p>
   <h2>로그인</h2>
   <p>
     이 서비스는 로그인을 필요로 합니다. 로그인을 하는 이유는 페이스북에 접근해서 댓글 정보를 가져오기 위해서는 기본적인 인증(access token)이 필요하기 때문입니다. 로그인 외에 어떤 정보도 수집하지 않습니다. <strong><u>이렇게 말하는 서비스가 있다면 항상 의심하셔야 합니다.</u></strong> 그래서 아래처럼 소스코드를 공개합니다. 보안적인 문제가 있는지를 주변에 계신 개발자에게 문의해보고 사용하세요. 항상 의심하세요.
     ^^
-    <a href="https://github.com/egoing/comment-lottery">https://github.com/egoing/comment-lottery</a>
+    <a href="https://github.com/egoing/comment-lottery" target="_blank">https://github.com/egoing/comment-lottery</a>
     <br><br>
     <span class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></span>
   </p>
@@ -187,7 +187,7 @@
     </tr>
     <tr>
       <td>페이지</td>
-      <td>https://www.facebook.com/permalink.php?story_fbid=<span class="em2">1440324862722276</span>&id=<span class="em1">218158748272233</span></td>
+      <td>https://www.facebook.com/permalink.php?story_fbid=<span class="em2">1440324862722276</span>&amp;id=<span class="em1">218158748272233</span></td>
       <td>
         <span class="em1">218158748272233</span>_<span class="em2">1440324862722276</span>/comments
       </td>
@@ -195,9 +195,7 @@
   </table>
   <input type="text" id="src" value="" placeholder="형식에 맞게 댓글의 주소를 적어주세요. 그룹의 경우 예 : 1801616463212215/comments">
   <input type="button" id="start" name="" value="추첨하기" onclick="lottery();">
-  <div id="result">
-
-  </div>
+  <div id="result"></div>
 
 </body>
 
