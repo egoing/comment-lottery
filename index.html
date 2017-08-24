@@ -57,9 +57,9 @@
       if (next === undefined) {
         shuffle(list);
         var code = list.map(function(data, i) {
-          return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/"+data.from.id+"\" target=\"_blank\">" + data.from.name + "</a></td><td>" + data.message + "</td></tr>";
+          return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/" + data.from.id + "\" target=\"_blank\">" + data.from.name + "</a></td><td>" + data.message + "</td></tr>";
         });
-        document.getElementById('result').innerHTML = '<table><tbody>'+code.join('')+'</tbody></table>';
+        document.getElementById('result').innerHTML = '<table><tbody>' + code.join('') + '</tbody></table>';
         return;
       }
       FB.api(
@@ -71,23 +71,23 @@
               var isExist = list.find(function(data) {
                 return data.from.id === comment.from.id
               })
-              if (!isExist){
+              if (!isExist) {
                 list.push(comment);
-                document.getElementById('result').innerHTML = '<span class="em3">'+list.length+'</span>개의 댓글을 수집했습니다.';
+                document.getElementById('result').innerHTML = '<span class="em3">' + list.length + '</span>개의 댓글을 수집했습니다.';
               }
             }
             // getComments(undefined);
             getComments(response.paging.next);
           } else {
             var msg = response.error.message;
-            switch(response.error.code){
+            switch (response.error.code) {
               case 100:
-                msg = '입력값이 올바른지 확인해주세요.\n'+msg;
+                msg = '입력값이 올바른지 확인해주세요.\n' + msg;
                 break;
               case 104:
-                msg = '페이스북 로그인을 먼저 해주세요.\n'+msg;
+                msg = '페이스북 로그인을 먼저 해주세요.\n' + msg;
             }
-            alert('깜짝이야! 에러가 발생했습니다! \n'+msg);
+            alert('깜짝이야! 에러가 발생했습니다! \n' + msg);
           }
         }
       );
@@ -98,20 +98,6 @@
       getComments(document.getElementById('src').value);
     }
   </script>
-  <!-- Google Fonts -->
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-
-  <!-- CSS Reset -->
-  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-
-  <!-- Milligram CSS minified -->
-  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
-
-  <!-- You should properly set the path from the main file. -->
-  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-</head>
-
-<body>
   <style>
     * {
       font-family: 'Spoqa Han Sans', 'Sans-serif';
@@ -148,19 +134,31 @@
     }
 
     .em1 {
-      background-color: red;
-      color: white;
+      color: red;
     }
 
     .em2 {
-      background-color: green;
-      color: white;
+      color: green;
     }
 
-    .em3{
-      font-size:6rem;
+    .em3 {
+      font-size: 6rem;
     }
   </style>
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+  <!-- CSS Reset -->
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+
+  <!-- Milligram CSS minified -->
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <!-- You should properly set the path from the main file. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
   <h1>페이스북 댓글 추첨</h1>
   <h2>소개</h2>
   <p>
@@ -169,7 +167,8 @@
   </p>
   <h2>로그인</h2>
   <p>
-    이 서비스는 로그인을 필요로 합니다. 로그인을 하는 이유는 페이스북에 접근해서 댓글 정보를 가져오기 위해서는 기본적인 인증(access token)이 필요하기 때문입니다. 로그인 외에 어떤 정보도 수집하지 않습니다. <strong><u>이렇게 말하는 서비스가 있다면 항상 의심하셔야 합니다.</u></strong> 그래서 아래처럼 소스코드를 공개합니다. 보안적인 문제가 있는지를 주변에 계신 개발자에게 문의해보고 사용하세요. 항상 의심하세요. ^^
+    이 서비스는 로그인을 필요로 합니다. 로그인을 하는 이유는 페이스북에 접근해서 댓글 정보를 가져오기 위해서는 기본적인 인증(access token)이 필요하기 때문입니다. 로그인 외에 어떤 정보도 수집하지 않습니다. <strong><u>이렇게 말하는 서비스가 있다면 항상 의심하셔야 합니다.</u></strong> 그래서 아래처럼 소스코드를 공개합니다. 보안적인 문제가 있는지를 주변에 계신 개발자에게 문의해보고 사용하세요. 항상 의심하세요.
+    ^^
     <a href="https://github.com/egoing/comment-lottery">https://github.com/egoing/comment-lottery</a>
     <br><br>
     <span class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></span>
