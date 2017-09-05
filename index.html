@@ -16,11 +16,9 @@
       });
       FB.AppEvents.logPageView();
       FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
+        if (response.status !== 'connected') {
           document.getElementById('require_login').style.display = 'block';
-        } else {
-          document.getElementById('require_login').style.display = 'none';
-        }
+        } 
       });
 
     };
@@ -174,14 +172,21 @@
   <p>
     이 서비스는 생활코딩 페이스북 그룹의 <a href="https://www.facebook.com/groups/codingeverybody/permalink/1802935303080331" target="_blank">공익이벤트</a>에 참여한 분들을 추첨하기 위해서  만들어진 것을 좀 더 많은 분들이 사용할 수 있도록 개선한 것입니다.
   </p>
-  <h2>로그인</h2>
-  <p>
-    이 서비스는 로그인을 필요로 합니다. 로그인을 하는 이유는 페이스북에 접근해서 댓글 정보를 가져오기 위해서는 기본적인 인증(access token)이 필요하기 때문입니다. 로그인 외에 어떤 정보도 수집하지 않습니다. <strong><u>이렇게 말하는 서비스가 있다면 항상 의심하셔야 합니다.</u></strong> 그래서 아래처럼 소스코드를 공개합니다. 보안적인 문제가 있는지를 주변에 계신 개발자에게 문의해보고 사용하세요. 항상 의심하세요.
-    ^^
-    <a href="https://github.com/egoing/comment-lottery" target="_blank">https://github.com/egoing/comment-lottery</a>
-    <br><br>
-    <span class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></span>
-  </p>
+  <div id="login">
+      <h2>로그인</h2>
+      <p>
+          이 서비스는 로그인을 필요로 합니다. 로그인을 하는 이유는 페이스북에 접근해서 댓글 정보를 가져오기 위해서는 기본적인 인증(access token)이 필요하기 때문입니다. 로그인 외에 어떤 정보도
+          수집하지 않습니다. <strong><u>이렇게 말하는 서비스가 있다면 항상 의심하셔야 합니다.</u></strong> 그래서 아래처럼 소스코드를 공개합니다. 보안적인 문제가 있는지를 주변에 계신
+          개발자에게 문의해보고 사용하세요. 항상 의심하세요.
+          ^^
+          <a href="https://github.com/egoing/comment-lottery"
+             target="_blank">https://github.com/egoing/comment-lottery</a>
+          <br><br>
+          <span class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with"
+                data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></span>
+      </p>
+  </div>
+
   <h2>이 서비스를 만드는 법</h2>
   <p>
     이런 서비스를 만들고 싶다면 <a href="https://opentutorials.org/course/2897/17711" target="_blank">https://opentutorials.org/course/2897/17711</a>를 참고하세요.
