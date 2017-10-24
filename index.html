@@ -211,7 +211,11 @@
         function getCall() {
             var parser = parseURL($('#src').val().trim());
             if (parser.host.indexOf('facebook.com') !== -1) {
+                debugger;
                 var matchs = parser.pathname.match(/\/groups\/(.+?)\/permalink\/([0-9]+)/);
+                if(!matchs){
+                    var matchs = $('#src').val().trim().match(/facebook\.com\/([0-9]+)\/photos\/.+?\/([0-9]+)\//);
+                }
                 if (matchs) {
                     var groupId = matchs[1];
                     var pageId = matchs[2];
