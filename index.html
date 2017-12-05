@@ -70,6 +70,9 @@
                     if (response && !response.error) {
                         for (var name in response.data) {
                             var _comment = response.data[name];
+                            if(!_comment.from){
+                                continue;
+                            }
                             var comment = {};
                             comment.type = 'comment';
                             comment.id = _comment.from.id;
@@ -211,7 +214,6 @@
         function getCall() {
             var parser = parseURL($('#src').val().trim());
             if (parser.host.indexOf('facebook.com') !== -1) {
-                debugger;
                 var matchs = parser.pathname.match(/\/groups\/(.+?)\/permalink\/([0-9]+)/);
                 if(!matchs){
                     var matchs = $('#src').val().trim().match(/facebook\.com\/([0-9]+)\/photos\/.+?\/([0-9]+)\//);
@@ -231,7 +233,6 @@
                         'sharedposts': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/sharedposts?limit=100',
                     }
                 }
-                console.log(parser.searchObject);
             }
         }
 
