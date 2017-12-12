@@ -152,8 +152,9 @@
         function fetchLikes(next, callback) {
             if (next === undefined) {
                 shuffle(likeList);
+                debugger;
                 var code = likeList.map(function (data, i) {
-                    return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/" + data.id + "\" target=\"_blank\">" + data.name + "</a></td></tr>";
+                    return "<tr><td >" + (i + 1) + "</td><td class=\"reactions\"><img src=\""+data.pic+"\"><a href=\""+data.link+"\" target=\"_blank\">" + data.name +"("+data.type+")" + "</a></td></tr>";
                 });
                 document.getElementById('result-likes').innerHTML = '<table class="ui very basic collapsing celled table"><tbody>' + code.join('') + '</tbody></table>';
                 document.getElementById('result-like-count').innerHTML = likeList.length;
@@ -211,7 +212,7 @@
             };
         }
 
-        function getCall() {
+        function getCall(callback) {
             var parser = parseURL($('#src').val().trim());
             if (parser.host.indexOf('facebook.com') !== -1) {
                 var matchs = parser.pathname.match(/\/groups\/(.+?)\/permalink\/([0-9]+)/);
@@ -221,17 +222,21 @@
                 if (matchs) {
                     var groupId = matchs[1];
                     var pageId = matchs[2];
-                    return {
-                        'comments': pageId + '/comments',
-                        'likes': pageId + '/likes?fields=name',
-                        'sharedposts': pageId + '/sharedposts?fields=from'
-                    };
-                } else if (parser.searchObject.story_fbid) {
-                    return {
-                        'comments': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/comments?limit=100',
-                        'likes': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/likes?limit=100',
-                        'sharedposts': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/sharedposts?limit=100',
+                    if(!/[0-9]+/.test(matchs[1])){
+                        FB.api('search?type=group&q='+matchs[1], function(group){
+                            callback({
+                                'comments': pageId + '/comments',
+                                'likes': group.data[0].id+'_'+pageId + '/reactions?fields=pic,link,name,type',
+                                'sharedposts': pageId + '/sharedposts?fields=from'
+                            });
+                        });
                     }
+                } else if (parser.searchObject.story_fbid) {
+                    callback({
+                        'comments': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/comments?limit=100',
+                        'likes': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/reactions?fields=pic,link,name,type&limit=100',
+                        'sharedposts': parser.searchObject.id + '_' + parser.searchObject.story_fbid + '/sharedposts?limit=100',
+                    });
                 }
             }
         }
@@ -249,33 +254,35 @@
             commentList = [];
             likeList = [];
             sharedpostList = [];
-            var calls = getCall();
-            if (calls) {
-                $('#result').innerHTML = '';
-                async.parallel([
-                    function (callback) {
-                        fetchComments(calls.comments, callback);
-                    },
-                    function (callback) {
-                        fetchLikes(calls.likes, callback);
-                    },
-                    function (callback) {
-                        callback(null, []);
+            getCall(function(calls){
+                if (calls) {
+                    $('#result').innerHTML = '';
+                    async.parallel([
+                        function (callback) {
+                            fetchComments(calls.comments, callback);
+                        },
+                        function (callback) {
+                            fetchLikes(calls.likes, callback);
+                        },
+                        function (callback) {
+                            callback(null, []);
 //                        fetchSharedposts(calls.sharedposts, callback);
-                    }
-                ], function (err, results) {
-                    var merged = results[0].concat(results[1], results[2]);
-                    shuffle(merged);
-                    var code = merged.map(function (data, i) {
-                        return "<tr class=\"" + data.type + "\"><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/" + data.id + "\" target=\"_blank\">" + data.name + "</a></td><td>" + data.type + "</td></tr>";
+                        }
+                    ], function (err, results) {
+                        var merged = results[0].concat(results[1], results[2]);
+                        shuffle(merged);
+                        var code = merged.map(function (data, i) {
+                            return "<tr class=\"" + data.type + "\"><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/" + data.id + "\" target=\"_blank\">" + data.name + "</a></td><td>" + data.type + "</td></tr>";
+                        });
+                        document.getElementById('result-sum').innerHTML = '<table class="ui very basic collapsing celled table"><tbody>' + code.join('') + '</tbody></table>';
+                        document.getElementById('result-sum-count').innerHTML = merged.length;
+
                     });
-                    document.getElementById('result-sum').innerHTML = '<table class="ui very basic collapsing celled table"><tbody>' + code.join('') + '</tbody></table>';
-                    document.getElementById('result-sum-count').innerHTML = merged.length;
-
-                });
 
 
-            }
+                }
+            });
+
         }
 
 
@@ -332,6 +339,14 @@
             margin-top: 7rem;
             display:none;
         }
+
+        .reactions img{
+            width: 4rem;
+            margin-right: 1rem;
+            vertical-align: middle;
+        }
+
+
 
 
     </style>
@@ -417,7 +432,7 @@
         <div id="result_wrap">
             <div class="ui top attached tabular menu " id="result">
                 <a class="active item" data-tab="comment">댓글(<span id="result-comment-count">0</span>)</a>
-                <a class="item" data-tab="like">좋아요(<span id="result-like-count">0</span>)</a>
+                <a class="item" data-tab="like">리액션-좋아요,기뻐요,하하 등등(<span id="result-like-count">0</span>)</a>
                 <!--<a class="item" data-tab="sharedpost">공유하기(<span id="result-sharedpost-count">0</span>)</a>-->
                 <a class="item" data-tab="all">모두(<span id="result-sum-count">0</span>)</a>
             </div>
