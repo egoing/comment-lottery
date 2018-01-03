@@ -54,7 +54,7 @@
 
 
         function fetchComments(next, callback) {
-            git if (next === undefined) {
+            if (next === undefined) {
                 shuffle(commentList);
                 var code = commentList.map(function (data, i) {
                     return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/" + data.id + "\" target=\"_blank\">" + data.name + "</a></td><td>" + data.message + "</td></tr>";
