@@ -54,7 +54,7 @@
 
 
         function fetchComments(next, callback) {
-            if (next === undefined) {
+            git if (next === undefined) {
                 shuffle(commentList);
                 var code = commentList.map(function (data, i) {
                     return "<tr><td>" + (i + 1) + "</td><td><a href=\"https://facebook.com/" + data.id + "\" target=\"_blank\">" + data.name + "</a></td><td>" + data.message + "</td></tr>";
@@ -152,7 +152,6 @@
         function fetchLikes(next, callback) {
             if (next === undefined) {
                 shuffle(likeList);
-                debugger;
                 var code = likeList.map(function (data, i) {
                     return "<tr><td >" + (i + 1) + "</td><td class=\"reactions\"><img src=\""+data.pic+"\"><a href=\""+data.link+"\" target=\"_blank\">" + data.name +"("+data.type+")" + "</a></td></tr>";
                 });
@@ -217,7 +216,17 @@
             if (parser.host.indexOf('facebook.com') !== -1) {
                 var matchs = parser.pathname.match(/\/groups\/(.+?)\/permalink\/([0-9]+)/);
                 if(!matchs){
-                    var matchs = $('#src').val().trim().match(/facebook\.com\/([0-9]+)\/photos\/.+?\/([0-9]+)\//);
+                    var matchs = $('#src').val().trim().match(/facebook\.com\/([0-9]+)\/(photos|videos)\/.+?\/([0-9]+)\//);
+                    if(!matchs){
+                        var matchs = $('#src').val().trim().match(/facebook\.com\/([0-9]+)\/videos\/([0-9]+)\//);
+                        if (matchs) {
+                            callback({
+                                'comments': matchs[1] + '_' + matchs[2] + '/comments?limit=100',
+                                'likes': matchs[1] + '_' + matchs[2] + '/reactions?fields=pic,link,name,type&limit=100',
+                                'sharedposts': matchs[1] + '_' + matchs[2] + '/sharedposts?limit=100',
+                            });
+                        }
+                    }
                 }
                 if (matchs) {
                     var groupId = matchs[1];
